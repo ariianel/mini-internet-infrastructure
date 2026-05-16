@@ -1,0 +1,10 @@
+auto eth0
+iface eth0 inet static
+	address 10.101.50.20
+	netmask 255.255.255.0
+	gateway 10.101.50.1
+
+post-up mkdir -p /var/www/html
+post-up echo "srv-app Clover Corp" > /var/www/html/index.html
+post-up httpd -h /var/www/html
+

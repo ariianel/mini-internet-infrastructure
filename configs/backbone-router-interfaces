@@ -1,0 +1,16 @@
+
+auto eth0
+iface eth0 inet static
+	address 203.0.113.4
+	netmask 255.255.255.254
+	post-up ip route add 198.51.100.0/24 via 203.0.113.5
+	post-up ip route add 192.0.2.0/24 via 203.0.113.5
+
+
+auto eth1
+iface eth1 inet static
+	address 203.0.113.2
+	netmask 255.255.255.254
+	post-up ip route add 203.0.113.128/25 via 203.0.113.3
+
+post-up echo 1 > /proc/sys/net/ipv4/ip_forward

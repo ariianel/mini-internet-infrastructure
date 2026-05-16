@@ -1,0 +1,15 @@
+auto eth0
+iface eth0 inet dhcp
+	#post-up ip route add default via 203.0.113.129
+	post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+	#post-up iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+	post-up iptables-restore < /etc/iptables/rules.v4
+
+
+auto eth1
+iface eth1 inet static
+	address 192.168.42.1
+	netmask 255.255.255.0
+	post-up touch /var/lib/dhcp/dhcpd.leases
+	post-up killall dhcpd; dhcpd -4 -f -cf /etc/dhcp/dhcpd.conf eth1 &
+

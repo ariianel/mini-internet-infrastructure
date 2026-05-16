@@ -1,0 +1,20 @@
+auto eth0
+iface eth0 inet static
+	address 198.51.100.123
+	netmask 255.255.255.248
+	gateway 198.51.100.121
+	post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+	post-up iptables-restore < /etc/iptables/rules.v4
+
+auto eth1
+iface eth1 inet static
+	address 10.101.50.1
+	netmask 255.255.255.0
+
+
+auto eth2
+iface eth2 inet static
+	address 10.102.10.1
+	netmask 255.255.255.0
+	post-up touch /var/lib/dhcp/dhcpd.leases
+	post-up killall dhcpd; dhcpd -4 -f -cf /etc/dhcp/dhcpd.conf eth2 &
